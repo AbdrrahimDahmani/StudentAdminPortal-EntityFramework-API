@@ -1,6 +1,7 @@
 using StudentAdminPortal.API.DataModel;
 using Microsoft.EntityFrameworkCore;
 using StudentAdminPortal.API.Repositories;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,7 +32,7 @@ IWebHostEnvironment environment = builder.Environment;
 
 builder.Services.AddDbContext<StudentAdminContext>(options => options.UseSqlServer(configuration.GetConnectionString("StudentAdminPortalDb")));
 builder.Services.AddScoped<IStudentRepository,SqlStudentRepository>();
-
+builder.Services.AddScoped<IImageRepository, LocalStorageImageRepository>();
 //auto mapper
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 // Add scoped
@@ -47,6 +48,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider= new PhysicalFileProvider(Path.Combine(environment.ContentRootPath,"Ressources")),
+    RequestPath = "/Ressources"
+});
 app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthorization();
 
