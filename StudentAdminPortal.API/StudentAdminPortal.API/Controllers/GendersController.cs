@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using StudentAdminPortal.API.DataModels;
+using StudentAdminPortal.API.DataModel;
 using StudentAdminPortal.API.Repositories;
 
 namespace StudentAdminPortal.API.Controllers

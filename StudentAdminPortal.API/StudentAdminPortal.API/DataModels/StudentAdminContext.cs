@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace StudentAdminPortal.API.DataModels
+namespace StudentAdminPortal.API.DataModel
 {
     public class StudentAdminContext : DbContext
     {

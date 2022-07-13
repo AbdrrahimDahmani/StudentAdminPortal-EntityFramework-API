@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using StudentAdminPortal.API.DataModels;
+using StudentAdminPortal.API.DataModel;
 
 #nullable disable
 

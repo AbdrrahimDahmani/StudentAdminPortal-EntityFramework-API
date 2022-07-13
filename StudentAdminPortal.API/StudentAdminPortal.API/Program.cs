@@ -1,4 +1,4 @@
-using StudentAdminPortal.API.DataModels;
+using StudentAdminPortal.API.DataModel;
 using Microsoft.EntityFrameworkCore;
 using StudentAdminPortal.API.Repositories;
 

@@ -1,4 +1,4 @@
-﻿using StudentAdminPortal.API.DataModels;
+﻿using StudentAdminPortal.API.DataModel;
 using Microsoft.EntityFrameworkCore;
 
 namespace StudentAdminPortal.API.Repositories
@@ -65,6 +65,13 @@ namespace StudentAdminPortal.API.Repositories
                 return student;
             }
             return null;
+        }
+
+        public async Task<Student> AddStudentRequest(Student request)
+        {
+           var student= await context.Student.AddAsync(request);
+            await context.SaveChangesAsync();
+            return student.Entity;
         }
     }
 }
