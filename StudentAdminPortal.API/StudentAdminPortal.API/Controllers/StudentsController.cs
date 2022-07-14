@@ -77,17 +77,34 @@ namespace StudentAdminPortal.API.Controllers
         [Route("[controller]/{studentId:guid}/upload-image")]
         public async Task<IActionResult> UploadImageAsync([FromRoute]Guid studentId,IFormFile profileImage)
         {
-            if(await studentRepository.Exists(studentId))
+            if(profileImage != null && profileImage.Length>0)
             {
-                var fileName = Guid.NewGuid()+Path.GetExtension(profileImage.FileName);
-                await imageRepository.Upload(profileImage, fileName);
-                var fileImagePath= await imageRepository.Upload(profileImage, fileName);
-                if(await studentRepository.UpdateProfileImage(studentId, fileImagePath))
+                var validExtension = new List<string>{
+                    ".jpeg",
+                    ".jpg",
+                    ".png",
+                    ".jfif",
+                    ".gif"
+                };
+                var extension =Path.GetExtension(profileImage.FileName);
+                if (validExtension.Contains(extension))
                 {
-                    return Ok(fileImagePath);
+                    if (await studentRepository.Exists(studentId))
+                    {
+                        var fileName = Guid.NewGuid() + Path.GetExtension(profileImage.FileName);
+                        await imageRepository.Upload(profileImage, fileName);
+                        var fileImagePath = await imageRepository.Upload(profileImage, fileName);
+                        if (await studentRepository.UpdateProfileImage(studentId, fileImagePath))
+                        {
+                            return Ok(fileImagePath);
+                        }
+                        return StatusCode(StatusCodes.Status500InternalServerError, "Error uploading image");
+                    }
                 }
+
+                return BadRequest("Please use another extension");
             }
-            return StatusCode(StatusCodes.Status500InternalServerError,"Error uploading image");
+            return NotFound();
         }
     }
     

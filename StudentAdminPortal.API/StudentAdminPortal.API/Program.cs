@@ -2,7 +2,7 @@ using StudentAdminPortal.API.DataModel;
 using Microsoft.EntityFrameworkCore;
 using StudentAdminPortal.API.Repositories;
 using Microsoft.Extensions.FileProviders;
-
+using FluentValidation.AspNetCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -36,7 +36,7 @@ builder.Services.AddScoped<IImageRepository, LocalStorageImageRepository>();
 //auto mapper
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 // Add scoped
-
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Program>());
 
 var app = builder.Build();
 
