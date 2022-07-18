@@ -33,10 +33,12 @@ IWebHostEnvironment environment = builder.Environment;
 builder.Services.AddDbContext<StudentAdminContext>(options => options.UseSqlServer(configuration.GetConnectionString("StudentAdminPortalDb")));
 builder.Services.AddScoped<IStudentRepository,SqlStudentRepository>();
 builder.Services.AddScoped<IImageRepository, LocalStorageImageRepository>();
+builder.Services.AddScoped<IStudentGender, SqlStudentRepository>();
 //auto mapper
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 // Add scoped
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Program>());
+builder.Services.AddApplicationInsightsTelemetry(builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]);
 
 var app = builder.Build();
 

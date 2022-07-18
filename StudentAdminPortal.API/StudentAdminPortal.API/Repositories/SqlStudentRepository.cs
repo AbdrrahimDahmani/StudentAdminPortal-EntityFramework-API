@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace StudentAdminPortal.API.Repositories
 {
-    public class SqlStudentRepository : IStudentRepository
+    public class SqlStudentRepository : IStudentRepository , IStudentGender
     {
         private readonly StudentAdminContext context;
 
@@ -19,13 +19,7 @@ namespace StudentAdminPortal.API.Repositories
                 .ToListAsync();
         } 
 
-        public async Task<Student> GetStudentAsync(Guid studentId)
-        {
-            return await context.Student
-                .Include(nameof(Gender)).Include(nameof(Address))
-                .FirstOrDefaultAsync(x=>x.Id == studentId);
-        }
-
+       
         public async Task<List<Gender>> GetGenderAsync()
         {
            return await context.Gender.ToListAsync();
@@ -84,6 +78,27 @@ namespace StudentAdminPortal.API.Repositories
                 return true;
             }
             return false;
+        }
+
+         public async Task<Student> GetStudentAsync(Guid studentId)
+                {
+                    return await context.Student
+                        .Include(nameof(Gender)).Include(nameof(Address))
+                        .FirstOrDefaultAsync(x=>x.Id == studentId);
+                }
+
+        public async Task<Gender> AddGenderRequest( Gender request)
+        {
+
+            var gender = await context.Gender.AddAsync(request);
+
+            await context.SaveChangesAsync();
+            return gender.Entity;
+        }
+
+        public  async Task<Gender> Get1GenderAsync(Guid genderId)
+        {
+            return await context.Gender.FirstOrDefaultAsync( x => x.Id ==genderId);
         }
     }
 }

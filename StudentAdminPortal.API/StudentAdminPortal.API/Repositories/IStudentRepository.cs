@@ -12,5 +12,7 @@ namespace StudentAdminPortal.API.Repositories
         Task<Student>DeleteStudent(Guid studentId);
         Task<Student> AddStudentRequest(Student request);
         Task<bool> UpdateProfileImage(Guid studentId,string profileImageUrl);
+        Task <Gender> AddGenderRequest(Gender gender);
+        
     }
 }
